@@ -44,6 +44,7 @@ public class UserController {
     @PostMapping("/person/save")
     public RestResponse save(@RequestParam("name") String name) {
         User user = new User();
+
         user.setName(name);
         if (userDAOImpl.save(user)) {
             System.out.println("用户对象：保存成功");
@@ -61,15 +62,7 @@ public class UserController {
 
     @PostMapping(value = "/findByPage")
     public RestResponse fingByPage(@RequestBody SelectOrderCondition condition, int pageNo, int pageSize) {
-        System.out.println(condition.getAction());
-        System.out.println(condition.getState());
-        System.out.println(condition.getBizId());
-        System.out.println(condition.getPlatformId());
-        System.out.println(condition.getProductType());
-        System.out.println(condition.getCombinationTag());
-        System.out.println(condition.getAreaCode());
-        System.out.println(condition.getRequestId());
-        System.out.println(condition.getOrderId());
+
         Page<User> page = userService.findByPage(pageNo, pageSize);
         RestResponse response = RestResponse.success(new PageInfo<>(page));
         return response;
