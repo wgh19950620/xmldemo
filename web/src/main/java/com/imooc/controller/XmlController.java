@@ -1,13 +1,16 @@
 package com.imooc.controller;
 
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.UUID;
 
 @RestController
@@ -15,7 +18,7 @@ public class XmlController {
 
 
     @GetMapping(value = "/export",produces = MediaType.APPLICATION_XML_VALUE)
-    public String export() throws Exception {
+    public void export(HttpServletRequest request,HttpServletResponse response) throws Exception {
         String message = "<Server>\n" + "\t<requestId>nbssm_wgh_20181026_server0000</requestId>\n"
                         + "\t<productId>193144903983</productId>\n"
                         + "\t<combinedAccessNumber>nbssm_20181026_c1340</combinedAccessNumber>\n"
@@ -42,22 +45,29 @@ public class XmlController {
                         + "\t\t\t\t<level></level>\n" + "\t\t\t</disk>\n" + "\t\t</attachedDisks>\n" + "\t</server>\n"
                         + "</Server>\n";
 
-        String filePath = "D:\\test\\"
-                        + UUID.randomUUID() + "OSS工单详情" + ".xml";
+        String filePath = "D:\\test\\" + UUID.randomUUID() + "OSS工单详情" + ".xml";
+        /* 1、创建输出文件 */
         File file = new File(filePath);
-        OutputFormat format = OutputFormat.createPrettyPrint();
-        //format.setNewLineAfterDeclaration(false);
-        // format.setNewlines(true);
-        // format.setTrimText(true);
-        // 将XML内容写入到文件当中
-        XMLWriter writer = new XMLWriter(new FileOutputStream(file), format);
-        //        writer.setEscapeText(false);// 字符是否转义,默认true
-        // 如果是需要默认头部，那么就是
-        // Writer(document);
-        // 如果不需要默认头部;
-        // System.out.println(document.getRootElement().asXML());
-        writer.write(message);
-        writer.close();
-        return message;
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /* 2、写入文件 */
+        BufferedOutputStream bos;
+        try {
+            byte[] bytes = message.getBytes();
+            int len = message.length();
+            bos = new BufferedOutputStream(new FileOutputStream(file, true));
+            bos.write(bytes, 0, len);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        return filePath;
     }
 }
