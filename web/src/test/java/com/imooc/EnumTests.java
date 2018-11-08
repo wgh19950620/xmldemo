@@ -117,4 +117,15 @@ public class EnumTests {
             System.out.println("生成失败");
         }
     }
+
+    @Test
+    public void test4() {
+        String comma = ",";
+        System.out.println("adf,dfs".contains(comma));
+        String[] strings = "adf,dfs".split(comma);
+        for (String string : strings) {
+
+            System.out.println(string);
+        }
+    }
 }

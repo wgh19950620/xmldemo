@@ -1,22 +1,67 @@
-package com.imooc;
+package com.imooc.controller;
 
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class JsonTest {
+/**
+ * 请求转发的controller
+ *
+ * @author wangguanghui
+ */
+@Controller
+public class ReleaseController {
 
-    @Test
-    public void test1() throws Exception {
+
+    /**
+     * 请求转发导出接口
+     *
+     * @param response  HttpServletResponse
+     * @param request   HttpServletRequest
+     * @throws Exception    异常跑出
+     */
+    @GetMapping("/release")
+    @ResponseBody
+    public void release(HttpServletResponse response, HttpServletRequest request) throws Exception {
+        XmlController xmlController = new XmlController();
+        String data = data();
+        xmlController.export(response, request,data);
+    }
+
+    @GetMapping("/release/two")
+    @ResponseBody
+    public void releaseTo(HttpServletResponse response, HttpServletRequest request) {
+        try {
+            HttpClient client = HttpClients.createDefault();
+            String url = "http://localhost:8080/export";
+            HttpPost post = new HttpPost(url);
+            String data = data();
+            System.out.println(data);
+            StringEntity stringEntity = new StringEntity(data);
+            System.out.println(stringEntity);
+            stringEntity.setContentEncoding("UTF-8");
+            stringEntity.setContentType("application/json");
+            post.setEntity(stringEntity);
+            post.addHeader("content-type","text/xml");
+            HttpResponse httpResponse = client.execute(post);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public String data() {
+        StringBuffer sb = new StringBuffer();
+        String header = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
         String message = "<Server>\n" + "\t<requestId>nbssm_wgh_20181026_server0000</requestId>\n"
                         + "\t<productId>193144903983</productId>\n"
                         + "\t<combinedAccessNumber>nbssm_20181026_c1340</combinedAccessNumber>\n"
@@ -42,23 +87,8 @@ public class JsonTest {
                         + "\t\t\t\t<size></size>\n" + "\t\t\t\t<oldSize></oldSize>\n" + "\t\t\t\t<type></type>\n"
                         + "\t\t\t\t<level></level>\n" + "\t\t\t</disk>\n" + "\t\t</attachedDisks>\n" + "\t</server>\n"
                         + "</Server>\n";
-        System.out.println(message);
 
-        String filePath = "D:\\test\\"
-                        + UUID.randomUUID() + "OSS工单详情" + ".xml";
-        File file = new File(filePath);
-        OutputFormat format = OutputFormat.createPrettyPrint();
-        //format.setNewLineAfterDeclaration(false);
-        // format.setNewlines(true);
-        // format.setTrimText(true);
-        // 将XML内容写入到文件当中
-        XMLWriter writer = new XMLWriter(new FileOutputStream(file), format);
-//        writer.setEscapeText(false);// 字符是否转义,默认true
-        // 如果是需要默认头部，那么就是
-        // Writer(document);
-        // 如果不需要默认头部;
-        // System.out.println(document.getRootElement().asXML());
-        writer.write(message);
-        writer.close();
+        sb = sb.append(header).append(message);
+        return sb.toString();
     }
 }
