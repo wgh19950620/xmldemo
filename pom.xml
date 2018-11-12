@@ -10,6 +10,7 @@
         <module>web</module>
         <module>persistence</module>
         <module>model</module>
+        <module>service</module>
     </modules>
     <!-- 修改成 pom 为主工程 -->
     <!--

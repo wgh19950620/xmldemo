@@ -20,4 +20,12 @@ public class User {
 
     private String cupSize;
 
+    public User() {
+    }
+
+    public User(String name, Integer age, String cupSize) {
+        this.name = name;
+        this.age = age;
+        this.cupSize = cupSize;
+    }
 }

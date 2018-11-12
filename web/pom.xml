@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>com.imooc</groupId>
-            <artifactId>persistence</artifactId>
+            <artifactId>service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
@@ -36,7 +36,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.imooc.FirstDemoApplication</mainClass>
+                    <mainClass>com.imooc.web.FirstDemoApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
