@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
+
+import com.imooc.contants.RmsConstants;
 
 /**
  * @author wangguanghui
@@ -20,6 +24,21 @@ import java.util.UUID;
 public class XmlController {
 
     private static Logger logger = LoggerFactory.getLogger(XmlController.class);
+
+    /**
+     * 获取地市代码映射关系
+     *
+     * @return 地市代码映射关系
+     */
+    @GetMapping("/v1/areaCode")
+    @ResponseBody
+    public Map<String, String> queryAreaCodeMapping() {
+        /**
+         * 通过rms配置常量获取地市配置
+         * xml配置数据读取工厂获取orch的配置模型
+         */
+        return RmsConstants.ORCH_CONFIGURATION.getProvince().getAreaCodeMapping();
+    }
 
     /**
      * 传入xml字符串导出xml

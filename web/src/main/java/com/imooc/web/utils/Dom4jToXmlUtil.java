@@ -121,14 +121,14 @@ public class Dom4jToXmlUtil {
             Element element = root.addElement(clazz.getSimpleName());
             try {
                 Class per = clazz.getSuperclass();
-                Field fieldsPerson[] = per.getDeclaredFields();
+                Field[] fieldsPerson = per.getDeclaredFields();
                 for (Field field : fieldsPerson) {
                     field.setAccessible(true);
                     // append child element
                     element.addElement(field.getName()).setText(field.get(obj).toString());
                 }
                 //get all properties
-                Field fields[] = clazz.getDeclaredFields();
+                Field[] fields = clazz.getDeclaredFields();
                 for (Field field : fields) {
                     field.setAccessible(true);
                     // append element child element
