@@ -1,5 +1,6 @@
 package com.imooc.web.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,7 @@ public class XmlController {
      *
      * @return 地市代码映射关系
      */
+    @ApiOperation(value="获取地市代码", notes="获取地市代码")
     @GetMapping("/v1/areaCode")
     @ResponseBody
     public Map<String, String> queryAreaCodeMapping() {
