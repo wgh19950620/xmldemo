@@ -13,4 +13,9 @@
     <select id="findByPage" resultMap="userMap">
         select * from t_user
     </select>
+
+    <select id="findByName" resultMap="userMap" parameterType="User">
+
+        select * from t_user where name = #{name}
+    </select>
 </mapper>

@@ -32,4 +32,15 @@ public class UserServiceImpl implements UserService {
         PageHelper.startPage(pageNo, pageSize);
         return userDAO.findByPage();
     }
+
+    /**
+     * 通过姓名查询用户数据
+     *
+     * @param user 查询条件
+     * @return 用户数据
+     */
+    @Override
+    public User findByName(User user) {
+        return userDAO.findByName(user);
+    }
 }

@@ -19,4 +19,6 @@ public interface UserService {
      * @return 分页数据
      */
     Page<User> findByPage(int pageNo, int pageSize);
+
+    User findByName(User user);
 }

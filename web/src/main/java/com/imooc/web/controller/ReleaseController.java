@@ -3,6 +3,7 @@ package com.imooc.web.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author wangguanghui
  */
 @Controller
+@ApiIgnore
 public class ReleaseController {
 
 
