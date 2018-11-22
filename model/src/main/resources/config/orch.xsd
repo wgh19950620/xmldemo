@@ -3,7 +3,7 @@
     <xsd:element name="orch">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="pon">
+                <xsd:element name="province">
                     <xsd:complexType>
                         <xsd:sequence>
                             <xsd:element name="areaCodes">
@@ -14,14 +14,14 @@
                                                 <xsd:attribute name="value">
                                                     <xsd:simpleType>
                                                         <xsd:restriction base="xsd:string">
-                                                            <xsd:minLength value="1" />
+                                                            <xsd:minLength value="1"/>
                                                         </xsd:restriction>
                                                     </xsd:simpleType>
                                                 </xsd:attribute>
                                                 <xsd:attribute name="cityCode">
                                                     <xsd:simpleType>
                                                         <xsd:restriction base="xsd:string">
-                                                            <xsd:minLength value="1" />
+                                                            <xsd:minLength value="1"/>
                                                         </xsd:restriction>
                                                     </xsd:simpleType>
                                                 </xsd:attribute>
@@ -29,164 +29,6 @@
                                             </xsd:complexType>
                                         </xsd:element>
                                     </xsd:sequence>
-                                </xsd:complexType>
-                            </xsd:element>
-                            <xsd:element name="bandwidths">
-                                <xsd:complexType>
-                                    <xsd:sequence>
-                                        <xsd:element name="bandwidth" maxOccurs="unbounded">
-                                            <xsd:complexType>
-                                                <xsd:attribute name="value">
-                                                    <xsd:simpleType>
-                                                        <xsd:restriction base="xsd:integer">
-                                                        </xsd:restriction>
-                                                    </xsd:simpleType>
-                                                </xsd:attribute>
-                                                <xsd:attribute name="code">
-                                                    <xsd:simpleType>
-                                                        <xsd:restriction base="xsd:integer">
-                                                        </xsd:restriction>
-                                                    </xsd:simpleType>
-                                                </xsd:attribute>
-                                            </xsd:complexType>
-                                        </xsd:element>
-                                    </xsd:sequence>
-                                </xsd:complexType>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="ipran">
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="bandwidths">
-                                <xsd:complexType>
-                                    <xsd:sequence>
-                                        <xsd:element name="bandwidth" maxOccurs="unbounded">
-                                            <xsd:complexType>
-                                                <xsd:attribute name="value">
-                                                    <xsd:simpleType>
-                                                        <xsd:restriction base="xsd:integer">
-                                                        </xsd:restriction>
-                                                    </xsd:simpleType>
-                                                </xsd:attribute>
-                                                <xsd:attribute name="code">
-                                                    <xsd:simpleType>
-                                                        <xsd:restriction base="xsd:integer">
-                                                        </xsd:restriction>
-                                                    </xsd:simpleType>
-                                                </xsd:attribute>
-                                            </xsd:complexType>
-                                        </xsd:element>
-                                    </xsd:sequence>
-                                </xsd:complexType>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="filters">
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="replace">
-                                <xsd:complexType>
-                                    <xsd:sequence>
-                                        <xsd:element name="from" maxOccurs="unbounded">
-                                            <xsd:simpleType>
-                                                <xsd:restriction base="xsd:string">
-                                                    <xsd:minLength value="1" />
-                                                </xsd:restriction>
-                                            </xsd:simpleType>
-                                        </xsd:element>
-                                        <xsd:element name="to">
-                                            <xsd:simpleType>
-                                                <xsd:restriction base="xsd:string">
-                                                    <xsd:minLength value="1" />
-                                                </xsd:restriction>
-                                            </xsd:simpleType>
-                                        </xsd:element>
-                                    </xsd:sequence>
-                                    <xsd:attribute name="id">
-                                        <xsd:simpleType>
-                                            <xsd:restriction base="xsd:string">
-                                                <xsd:minLength value="1" />
-                                            </xsd:restriction>
-                                        </xsd:simpleType>
-                                    </xsd:attribute>
-                                </xsd:complexType>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="vpn">
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="define" maxOccurs="unbounded">
-                                <xsd:complexType>
-                                    <xsd:sequence>
-                                        <xsd:element name="property" maxOccurs="unbounded">
-                                            <xsd:complexType>
-                                                <xsd:attribute name="name">
-                                                    <xsd:simpleType>
-                                                        <xsd:restriction base="xsd:string">
-                                                            <xsd:minLength value="1" />
-                                                        </xsd:restriction>
-                                                    </xsd:simpleType>
-                                                </xsd:attribute>
-                                                <xsd:attribute name="optional" type="xsd:boolean" />
-                                                <xsd:attribute name="limit" type="xsd:string" />
-                                                <xsd:attribute name="type">
-                                                    <xsd:simpleType>
-                                                        <xsd:restriction base="xsd:string">
-                                                            <xsd:enumeration value="string" />
-                                                            <xsd:enumeration value="string[]" />
-                                                            <xsd:enumeration value="int" />
-                                                            <xsd:enumeration value="int[]" />
-                                                        </xsd:restriction>
-                                                    </xsd:simpleType>
-                                                </xsd:attribute>
-                                                <xsd:attribute name="validator">
-                                                    <xsd:simpleType>
-                                                        <xsd:restriction base="xsd:string">
-                                                            <xsd:enumeration value="IP" />
-                                                            <xsd:enumeration value="REGEX" />
-                                                        </xsd:restriction>
-                                                    </xsd:simpleType>
-                                                </xsd:attribute>
-                                                <xsd:attribute name="filter">
-                                                    <xsd:simpleType>
-                                                        <xsd:restriction base="xsd:string">
-                                                            <xsd:minLength value="1" />
-                                                        </xsd:restriction>
-                                                    </xsd:simpleType>
-                                                </xsd:attribute>
-                                            </xsd:complexType>
-                                        </xsd:element>
-                                    </xsd:sequence>
-                                    <xsd:attribute name="cloud">
-                                        <xsd:simpleType>
-                                            <xsd:restriction base="xsd:string">
-                                                <xsd:enumeration value="HYYUN" />
-                                                <xsd:enumeration value="CTYUN" />
-                                            </xsd:restriction>
-                                        </xsd:simpleType>
-                                    </xsd:attribute>
-                                    <xsd:attribute name="type">
-                                        <xsd:simpleType>
-                                            <xsd:restriction base="xsd:string">
-                                                <xsd:enumeration value="IPRAN" />
-                                                <xsd:enumeration value="PON" />
-                                            </xsd:restriction>
-                                        </xsd:simpleType>
-                                    </xsd:attribute>
-                                    <xsd:attribute name="action">
-                                        <xsd:simpleType>
-                                            <xsd:restriction base="xsd:string">
-                                                <xsd:enumeration value="CREATE" />
-                                                <xsd:enumeration value="MODIFY" />
-                                                <xsd:enumeration value="RELEASE" />
-                                            </xsd:restriction>
-                                        </xsd:simpleType>
-                                    </xsd:attribute>
                                 </xsd:complexType>
                             </xsd:element>
                         </xsd:sequence>

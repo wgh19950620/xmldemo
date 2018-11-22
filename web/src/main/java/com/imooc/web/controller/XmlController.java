@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
+import com.imooc.config.OrchConfiguration;
+import com.imooc.config.OrchProvinceConfiguration;
 import com.imooc.contants.RmsConstants;
 
 /**
@@ -39,7 +41,10 @@ public class XmlController {
          * 通过rms配置常量获取地市配置
          * xml配置数据读取工厂获取orch的配置模型
          */
-        return RmsConstants.ORCH_CONFIGURATION.getProvince().getAreaCodeMapping();
+        OrchConfiguration orchConfiguration = RmsConstants.ORCH_CONFIGURATION;
+        OrchProvinceConfiguration province = orchConfiguration.getProvince();
+        Map<String, String> areaCodeMapping = province.getAreaCodeMapping();
+        return areaCodeMapping;
     }
 
     /**

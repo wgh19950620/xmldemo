@@ -25,13 +25,11 @@ import com.imooc.utils.ImportXml;
 @XmlRootElement(name = "orch")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class XmlNodeOrch {
-
     @Getter
     private XmlNodeProvince province;
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class XmlNodeProvince {
-
         @Getter
         @XmlElementWrapper(name = "areaCodes")
         @XmlElement(name = "areaCode")
@@ -39,7 +37,6 @@ public class XmlNodeOrch {
 
         @XmlAccessorType(XmlAccessType.FIELD)
         public static class XmlNodeAreaCode {
-
             @Getter
             @XmlAttribute
             private String value;
