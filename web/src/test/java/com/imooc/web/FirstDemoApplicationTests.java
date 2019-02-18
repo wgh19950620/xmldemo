@@ -128,4 +128,9 @@ public class FirstDemoApplicationTests {
         runTwo.run();
     }
 
+    @Test
+    public void test8() {
+        System.out.println(3 * 0.1 == 0.3);
+    }
+
 }

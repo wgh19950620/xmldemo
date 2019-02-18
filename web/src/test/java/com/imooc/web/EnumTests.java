@@ -27,6 +27,7 @@ import com.imooc.enums.CityCode;
 import com.imooc.enums.JobAction;
 import com.imooc.enums.JobState;
 import com.imooc.enums.KeyWordType;
+import com.imooc.enums.OrderType;
 import com.imooc.enums.ProductType;
 
 @RunWith(SpringRunner.class)
@@ -127,5 +128,11 @@ public class EnumTests {
 
             System.out.println(string);
         }
+    }
+
+    @Test
+    public void test5() {
+        String fileName = OrderType.getFileName("CT_YUN_HWS_CREATE_VM");
+        System.out.println(fileName);
     }
 }
