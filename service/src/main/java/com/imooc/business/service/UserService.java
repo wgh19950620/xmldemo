@@ -1,6 +1,5 @@
 package com.imooc.business.service;
 
-
 import com.github.pagehelper.Page;
 import com.imooc.entity.User;
 
@@ -21,4 +20,11 @@ public interface UserService {
     Page<User> findByPage(int pageNo, int pageSize);
 
     User findByName(User user);
+
+    /**
+     * 创建用户信息
+     *
+     * @param user 用户信息
+     */
+    void createUser(User user);
 }

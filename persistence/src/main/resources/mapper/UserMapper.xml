@@ -14,8 +14,24 @@
         select * from t_user
     </select>
 
-    <select id="findByName" resultMap="userMap" parameterType="User">
+    <select id="findByName" resultMap="userMap" parameterType="com.imooc.entity.User">
 
         select * from t_user where name = #{name}
     </select>
+
+    <insert id="createUser" parameterType="com.imooc.entity.User">
+        INSERT INTO
+        T_USER
+            (
+                NAME,
+                AGE,
+                CUPSIZE
+            )
+        VALUES
+            (
+                #{name},
+                #{age},
+                #{cupSize}
+            )
+    </insert>
 </mapper>

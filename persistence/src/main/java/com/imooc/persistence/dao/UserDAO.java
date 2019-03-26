@@ -27,4 +27,11 @@ public interface UserDAO {
      * @return 用户数据
      */
     User findByName(User user);
+
+    /**
+     * 创建用户信息
+     *
+     * @param user 用户信息
+     */
+    void createUser(User user);
 }

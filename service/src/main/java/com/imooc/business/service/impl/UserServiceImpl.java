@@ -43,4 +43,14 @@ public class UserServiceImpl implements UserService {
     public User findByName(User user) {
         return userDAO.findByName(user);
     }
+
+    /**
+     * 创建用户信息
+     *
+     * @param user 用户信息
+     */
+    @Override
+    public void createUser(User user) {
+        userDAO.createUser(user);
+    }
 }

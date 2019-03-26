@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.Page;
@@ -35,9 +36,8 @@ public class UserController {
      */
     @ApiOperation(value = "用户分页", notes = "用户分页")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNo", value = "当前页", required = true, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "pageSize", value = "当前页显示数", required = true, dataType = "int", paramType = "query")
-    })
+                    @ApiImplicitParam(name = "pageNo", value = "当前页", required = true, dataType = "int", paramType = "query"),
+                    @ApiImplicitParam(name = "pageSize", value = "当前页显示数", required = true, dataType = "int", paramType = "query")})
     @GetMapping(value = "/findByPage")
     public RestResponse findByPage(int pageNo, int pageSize) {
 
@@ -54,6 +54,7 @@ public class UserController {
     @ApiOperation(value = "url测试", notes = "url测试")
     @ApiImplicitParam(name = "message", value = "测试数据", required = true, dataType = "String", paramType = "query")
     @PostMapping("/url/test")
+    // localhost:8080/url/test?message=dsagdag
     public void urlRequestParamTest(String message) {
         System.out.println(message);
     }
@@ -66,6 +67,7 @@ public class UserController {
     @ApiOperation(value = "url测试", notes = "url测试")
     @ApiImplicitParam(name = "message", value = "测试数据", required = true, dataType = "String", paramType = "path")
     @PostMapping("/url/test/{message}")
+    // localhost:8080/url/test/sdfsafa
     public RestResponse urlPathVariableTest(@PathVariable String message) {
         System.out.println(message);
 
@@ -79,11 +81,22 @@ public class UserController {
      */
     @ApiOperation(value = "url测试", notes = "url测试")
     @ApiImplicitParam(name = "user", value = "用户信息", required = true, dataType = "User", paramType = "body")
-    @ApiResponse(code = 0,message = "successful")
+    @ApiResponse(code = 0, message = "successful")
     @PostMapping("/user/find")
     public RestResponse urlRequestBodyTest(@RequestBody User user) {
 
         User existUser = userServiceImpl.findByName(user);
         return new RestResponse(0, "", existUser);
+    }
+
+    /**
+     * 创建用户信息
+     *
+     * @param user 用户信息
+     */
+    @PostMapping(value = "/user/create")
+    public void createUser(@RequestBody User user) {
+
+        userServiceImpl.createUser(user);
     }
 }
