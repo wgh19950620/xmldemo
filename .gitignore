@@ -8,3 +8,9 @@ target/
 .idea
 .idea/
 *.iml
+### Example user template template
+### Example user template
+
+# IntelliJ project files、
+out
+gen
