@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no"/>
+	<title>供应商系统</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="shortcut icon" type="image/x-icon" href="#" />
+	<link rel="stylesheet" href="layui/css/layui.css" />
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="layui/layui.js"></script>
+	<style type="text/css">
+		.layui-form-checkbox{
+			margin-top: 10px;
+		}
+		.layui-form-checkbox[lay-skin=primary] span{min-width:120px;}
+	</style>
+</head>
+<body>
+<div class="layui-fluid">
+	<div class="layui-row layui-col-space20">
+		<div class="layui-col-md3"></div>
+		<div class="layui-col-md6">
+			<blockquote class="layui-elem-quote" style="margin-top: 100px;">支付管理</blockquote>
+			<!-- 地址选择插件 start -->
+			<form class="layui-form">
+				<div class="layui-row">
+					<div class="layui-col-sm6">
+						<div class="layui-inline layui-select-default" style="width: 99%;">
+							<select name="paymentType" id="paymentType" lay-filter="paymentType">
+							</select>
+						</div>
+					</div>
+					<div class="layui-col-sm6">
+						<div class="layui-inline layui-select-default" style="width: 99%;">
+							<select name="paymentChannel" id="paymentChannel" lay-filter="paymentChannel">
+							</select>
+						</div>
+					</div>
+					<div class="layui-col-sm12">
+						<div id="paymentPattern" class="layui-inline">
+						</div>
+					</div>
+				</div>
+				<p style="margin-top: 40px;"><button id="commit" class="layui-btn" type="button" lay-submit lay-filter="goSubmit">立即提交</button></p>
+			</form>
+			<!-- 地址选择插件 end -->
+		</div>
+		<div class="layui-col-md3"></div>
+	</div>
+</div>
+<script type="text/javascript">
+    layui.use(['form'], function(){
+            var form = layui.form;
+        //页面初始化，首先获取支付类型下拉列表数据
+        $.ajax({
+            url: "select/paymentType",
+            type: "GET",
+            contentType: "application/json;charset-UTF-8",
+            success: function(data){
+				var html="";
+				html+="<option value=\"\" >支付类型</option>";
+                var result = data;
+                if (result.code === 0) {
+                    var existData = result.data;
+                    $.each(existData, function (n, v) {
+                        html+="<option value="+n+">"+v+"</option>";
+                    })
+                    $("#paymentType").html(html);
+                    form.render('select');
+                }
+            },
+            error:function(e){
+                parent.layer.msg('系统异常，请稍后重试！', {icon: 5, anim: 6,time:3000});
+            }
+        });
+
+        /*
+            支付渠道：单选项，默认不选择任一项。
+            A：支付类型选择二维码被扫，则可选项为ETS直连渠道、威富通渠道。
+            B：支付类型选择二维码主扫，则可选项为威富通渠道。
+            C：支付类型选择二维码代扣，则可选项为翼支付代扣。
+            D：支付类型选择人脸代扣，则可选项为支付宝人脸代扣、微信人脸代扣。
+         */
+        var types,channel;//支付类型，支付渠道
+        //监听支付类型
+        form.on('select(paymentType)', function(data){
+            types = data.value;
+            getChannelList(types);//获取 支付渠道列表
+
+        });
+        //监听支付渠道
+        form.on('select(paymentChannel)', function(data){
+            channel = data.value;
+            getPaywayList(types,channel);//获取 支付方式列表
+        });
+        //监听提交
+        form.on('submit(goSubmit)', function(data){
+            var resData = data.field;
+            var paymentPatterns = new Array();
+            $('input[name="paymentPatternList"]:checked').each(function(index, domEle){
+                console.log($(this).val())
+                paymentPatterns.push($(this).val());
+            });
+
+            data.field.paymentPatternList = paymentPatterns;
+
+            var paymentPatternList = data.field.paymentPatternList;
+            var paymentType = data.field.paymentType;
+            var paymentChannel = data.field.paymentChannel;
+
+            var params = {
+                "thirdApplication": resData,
+                "paymentType": paymentType,
+                "paymentChannel": paymentChannel,
+                "paymentPatternList": paymentPatternList
+            };
+
+            console.log(params)
+
+            $.ajax({
+                url: "/create/thirdApplication",
+                type: "POST",
+                data: JSON.stringify(params),
+                dataType: "json",
+                contentType: "application/json;charset-UTF-8",
+                success: function(data){
+                    var result = data;
+                    if (result.code === 0) {
+                        /*添加成功之后，关闭弹窗，刷新父页面*/
+                        parent.layer.msg("添加成功", {icon: 6, time: 2000}, function () {
+                            parent.layer.close(index);//关闭layer
+                        });
+                    } else {
+                        $("#commit").attr('disabled',false);
+                        parent.layer.msg(result.msg, {icon: 5, anim: 6, time: 3000});
+                    }
+                },
+                error: function (e) {
+                    $("#commit").attr('disabled',false);
+                    parent.layer.msg('系统异常，请稍后重试！', {icon: 5, anim: 6, time: 3000});
+                }
+            });
+
+        });
+        /*
+            获取 支付渠道列表 getChannelList
+            入参: types(支付类型)
+        */
+        function getChannelList(types){
+            $.ajax({
+                url: "select/paymentChannel",
+                type: "GET",
+                data: {"code":types},
+                dataType: "json",
+                success: function(data){
+                    var html="";
+                    html+="<option value=\"\" >支付渠道</option>";
+                    var result = data;
+                    if (result.code === 0) {
+                        var existData = result.data;
+                        $.each(existData, function (n, v) {
+                            html+="<option value="+n+">"+v+"</option>";
+                        })
+                        $("#paymentChannel").html(html);
+                        form.render('select');
+                    }
+                },
+                error:function(e){
+                    parent.layer.msg('系统异常，请稍后重试！', {icon: 5, anim: 6,time:3000});
+                }
+            });
+        }
+        /*
+            获取 支付方式列表 getPaywayList
+            入参: types(支付类型),channel(支付渠道)
+        */
+        function getPaywayList(types,channel){
+            $.ajax({
+                url: "select/paymentPattern",
+                type: "GET",
+                data: {"typeCode":types,"channelCode":channel},
+                dataType: "json",
+                success: function(data){
+                    var html="";
+                    var result = data;
+                    if (result.code === 0) {
+                        var existData = result.data;
+						$.each(existData, function (n, v) {
+							html+="<input type='checkbox' name='paymentPatternList' value="+n+" lay-skin='primary' title="+v+" checked=''>";
+						})
+
+                        $("#paymentPattern").html(html);
+                        form.render();
+                    }
+                },
+                error:function(e){
+                    parent.layer.msg('系统异常，请稍后重试！', {icon: 5, anim: 6,time:3000});
+                }
+            });
+        }
+
+
+
+
+    });
+</script>
+</body>
+</html>

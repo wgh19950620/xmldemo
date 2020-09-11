@@ -113,4 +113,16 @@ public class XmlTest {
         return array[random.nextInt(length)];
     }
 
+    @Test
+    public void test34() {
+        File root2=new File("../../");//获得当前文件夹（即工程目录），结果D:\workspaceOfJavaEclipse\javaTest
+        //File root2=new File("..");//获得当前文件夹的父文件夹，结果D:\workspaceOfJavaEclipse
+        try {
+            String rootDir2=root2.getCanonicalPath();
+            System.out.println("当前工程所在文件夹："+rootDir2);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }

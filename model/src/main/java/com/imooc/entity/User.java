@@ -10,22 +10,23 @@ import lombok.Data;
 @Data
 public class User {
     private Integer id;
+    private Integer classId;
+    private Integer courseId;
 
-    /**
-     * 用户名称
-     */
     private String name;
 
     private Integer age;
+    private Integer isValidate;
+    private String username;
+    private String password;
 
-    private String cupSize;
+    private String identity;
 
     public User() {
     }
 
-    public User(String name, Integer age, String cupSize) {
+    public User(String name, Integer age) {
         this.name = name;
         this.age = age;
-        this.cupSize = cupSize;
     }
 }

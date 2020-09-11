@@ -1,15 +1,12 @@
 package com.imooc.web;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.imooc.entity.CallbackMessage;
 import com.imooc.entity.CloudServerOrderResponse;
 import com.imooc.entity.OrchErrorMessage;
+import com.imooc.entity.User;
 import com.imooc.utils.JsonUtil;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,12 +14,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
-
-import com.imooc.entity.User;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -30,7 +24,7 @@ public class OtherTest {
 
     @Test
     public void test() {
-        User user = new User("lisi", 18, "A");
+        User user = new User("lisi", 18);
         User copyUser = new User();
         BeanUtils.copyProperties(user, copyUser);
         System.out.println(user);

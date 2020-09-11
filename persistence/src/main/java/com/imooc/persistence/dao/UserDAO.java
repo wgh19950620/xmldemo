@@ -29,9 +29,19 @@ public interface UserDAO {
     User findByName(User user);
 
     /**
-     * 创建用户信息
+     * delete user by id
      *
-     * @param user 用户信息
+     * @param id id
+     * @return code
      */
-    void createUser(User user);
+    int deleteUserById(Integer id);
+
+    /**
+     * sava user
+     *
+     * @param user user
+     */
+    void savaUser(User user);
+
+    int updateUser(User user);
 }
