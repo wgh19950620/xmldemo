@@ -1,6 +1,9 @@
 package com.imooc.web;
 
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.imooc.enums.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,19 +19,9 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.imooc.enums.CityCode;
-import com.imooc.enums.JobAction;
-import com.imooc.enums.JobState;
-import com.imooc.enums.KeyWordType;
-import com.imooc.enums.OrderType;
-import com.imooc.enums.ProductType;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -134,5 +127,15 @@ public class EnumTests {
     public void test5() {
         String fileName = OrderType.getFileName("CT_YUN_HWS_CREATE_VM");
         System.out.println(fileName);
+    }
+
+    @Test
+    public void test6() {
+        String fileName = "作废功能梳理.xmind";
+        String[] split = fileName.split("\\.");
+        for (int i = 0; i < split.length; i++) {
+
+            System.out.println(split[i]);
+        }
     }
 }
