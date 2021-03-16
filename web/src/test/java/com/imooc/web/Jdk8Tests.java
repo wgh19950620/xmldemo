@@ -83,4 +83,48 @@ public class Jdk8Tests {
         Random random = new Random(10);
         random.ints().limit(10).sorted().forEach(System.out::println);
     }
+
+    @Test
+    public void compareVersion() {
+        for (String s : "1.0.1".split("\\.")) {
+
+            System.out.println(s);
+        }
+        int i = compareVersion("ets_face_pay_v1.0.1_20210310.apk".split("_")[3].substring(1),
+                "ets_face_pay_v1.0.1_20210310.apk".split("_")[3].substring(1));
+        System.out.println(i);
+    }
+
+    public static int compareVersion(String newVersionNum, String OldVersionNum) {
+        if (newVersionNum.equals(OldVersionNum)) {
+            return 0;
+        }
+        String[] newVersionArray = newVersionNum.split("\\.");
+        String[] oldVersionArray = OldVersionNum.split("\\.");
+        int index = 0;
+        //获取最小长度值
+        int minLen = Math.min(newVersionArray.length, oldVersionArray.length);
+        int diff = 0;
+        //循环判断每位的大小
+        while (index < minLen && (diff = Integer.parseInt(newVersionArray[index]) - Integer.parseInt(oldVersionArray[index])) == 0) {
+            index++;
+        }
+        if (diff == 0) {
+            //如果位数不一致，比较多余位数
+            for (int i = index; i < newVersionArray.length; i++) {
+                if (Integer.parseInt(newVersionArray[i]) > 0) {
+                    return 1;
+                }
+            }
+
+            for (int i = index; i < oldVersionArray.length; i++) {
+                if (Integer.parseInt(oldVersionArray[i]) > 0) {
+                    return -1;
+                }
+            }
+            return 0;
+        } else {
+            return diff > 0 ? 1 : -1;
+        }
+    }
 }
